@@ -13,6 +13,7 @@ Project structure:
 - `main.rkt` contains an example code which uses the other files.
 - `blockchain.rkt` contains the implementation of the blockchain.
 - `block.rkt` contains the implementation of a block.
+- `wallet.rkt` contains the implementation of a wallet.
 
 Boro Sitnikovski
 

@@ -1,4 +1,6 @@
 #lang racket
+(require sha)
+
 (require "block.rkt")
 (require "blockchain.rkt")
 
@@ -9,24 +11,16 @@
 (set! blockchain (blockchain-add blockchain "Hello world 2"))
 (set! blockchain (blockchain-add blockchain "Hello world 3"))
 
-#|
-(block-hash (car blockchain))
-(block-previous-hash (car blockchain))
-(block-data (car blockchain))
-(block-timestamp (car blockchain))
-(block-nonce (car blockchain))
+(define (print-block block)
+  (printf "Block information\n=================\nHash:\t~a\nHash_p:\t~a\nData:\t~a\nStamp:\t~a\nNonce:\t~a\n"
+          (bytes->hex-string (block-hash block))
+          (bytes->hex-string (block-previous-hash block))
+          (block-data block)
+          (block-timestamp block)
+          (block-nonce block)))
 
-(block-hash (cadr blockchain))
-(block-previous-hash (cadr blockchain))
-(block-data (cadr blockchain))
-(block-timestamp (cadr blockchain))
-(block-nonce (cadr blockchain))
+(for ([block blockchain])
+  (print-block block)
+  (newline))
 
-(block-hash (caddr blockchain))
-(block-previous-hash (caddr blockchain))
-(block-data (caddr blockchain))
-(block-timestamp (caddr blockchain))
-(block-nonce (caddr blockchain))
-|#
-
-(blockchain-valid? blockchain)
+(printf "Blockchain is valid: ~a\n" (blockchain-valid? blockchain))

@@ -1,9 +1,17 @@
 #lang racket
-(require sha)
-
 (require "block.rkt")
 (require "blockchain.rkt")
+(require "wallet.rkt")
+(require "transaction.rkt")
 
+(define wallet-a (make-wallet))
+(define wallet-b (make-wallet))
+
+(define tr (transaction 1 wallet-a wallet-b 5 '()))
+(define signature (transaction-generate-signature tr))
+(transaction-verify-signature? tr signature)
+
+#|
 (define seed-hash (string->bytes/utf-8 "seed"))
 (define my-block (make-block "Hello world 1" seed-hash))
 
@@ -24,3 +32,4 @@
   (newline))
 
 (printf "Blockchain is valid: ~a\n" (blockchain-valid? blockchain))
+|#

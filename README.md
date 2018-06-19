@@ -14,6 +14,7 @@ Project structure:
 - `blockchain.rkt` contains the implementation of the blockchain.
 - `block.rkt` contains the implementation of a block.
 - `wallet.rkt` contains the implementation of a wallet.
+- `transaction.rkt` contains the implementation of transactions.
 
 Boro Sitnikovski
 

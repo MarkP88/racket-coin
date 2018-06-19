@@ -1,5 +1,5 @@
 #lang racket
-(require sha)
+(require (only-in sha sha256))
 
 (define difficulty 2)
 (define target (make-bytes difficulty 32))

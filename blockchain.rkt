@@ -20,6 +20,6 @@
   (equal? (drop-right (map block-previous-hash blockchain) 1)
           (cdr (map block-hash blockchain)))
   ; Check that block is mined
-  (true-for-all? mined-block? blockchain))
+  (true-for-all? mined-block? (map block-hash blockchain)))
 
 (provide blockchain-init blockchain-add blockchain-valid?)

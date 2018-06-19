@@ -9,6 +9,11 @@ Short theoretical tutorial [here](https://blockgeeks.com/guides/what-is-bitcoin/
 
 Bitcoin paper [here](https://bitcoin.org/bitcoin.pdf).
 
+Project structure:
+- `main.rkt` contains an example code which uses the other files.
+- `blockchain.rkt` contains the implementation of the blockchain.
+- `block.rkt` contains the implementation of a block.
+
 Boro Sitnikovski
 
 Licensed under GPL.  Read LICENSE for more information.

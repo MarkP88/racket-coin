@@ -9,12 +9,13 @@
     (cons blockchain-hashed blockchain)))
 
 (define (blockchain-valid? blockchain)
-  ; Compare calculated hashes
-  (true-for-all? valid-block? blockchain)
-  ; Compare previous hashes
-  (equal? (drop-right (map block-previous-hash blockchain) 1)
-          (cdr (map block-hash blockchain)))
-  ; Check that block is mined
-  (true-for-all? mined-block? (map block-hash blockchain)))
+  (and
+   ; Compare calculated hashes
+   (true-for-all? valid-block? blockchain)
+   ; Compare previous hashes
+   (equal? (drop-right (map block-previous-hash blockchain) 1)
+           (cdr (map block-hash blockchain)))
+   ; Check that block is mined
+   (true-for-all? mined-block? (map block-hash blockchain))))
 
 (provide blockchain-init blockchain-add blockchain-valid?)

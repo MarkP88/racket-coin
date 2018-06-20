@@ -14,7 +14,7 @@
            (string->bytes/utf-8 (number->string nonce)))))
 
 (define (valid-block? block)
-  (eq? (block-hash block)
+  (equal? (block-hash block)
        (calculate-block-hash (block-previous-hash block)
                              (block-timestamp block)
                              (block-data block)

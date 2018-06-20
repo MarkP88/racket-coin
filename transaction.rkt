@@ -1,40 +1,29 @@
 #lang racket
 (require (only-in sha sha256))
-(require crypto)
-(require crypto/libcrypto)
-(require crypto/all)
 (require "utils.rkt")
-(require "wallet.rkt")
+(require "transaction-io.rkt")
+(require racket/serialize)
 
-; We need to use all crypto factories for converting the key between hex<->pk-key
-(use-all-factories!)
+(serializable-struct transaction (hash id inputs outputs))
 
-(struct transaction (sequence from to value inputs))
-
-(define (calculate-transaction-hash transaction)
+(define (calculate-transaction-hash id inputs outputs)
   (sha256 (bytes-append
-           (string->bytes/utf-8 (wallet-public-key (transaction-from transaction)))
-           (string->bytes/utf-8 (wallet-public-key (transaction-to transaction)))
-           (string->bytes/utf-8 (number->string (transaction-value transaction)))
-           (string->bytes/utf-8 (number->string (transaction-sequence transaction))))))
+           (string->bytes/utf-8 (number->string id))
+           (string->bytes/utf-8 (~a (serialize inputs)))
+           (string->bytes/utf-8 (~a (serialize outputs))))))
 
-(define (transaction-generate-signature transaction)
-  (let ([privkey (wallet-private-key (transaction-from transaction))]
-        [sender (wallet-public-key (transaction-from transaction))]
-        [recipient (wallet-public-key (transaction-to transaction))]
-        [value (number->string (transaction-value transaction))])
-    (digest/sign (datum->pk-key (hex-string->bytes privkey) 'PrivateKeyInfo)
-                 'sha1
-                 (string->bytes/latin-1 (string-append sender recipient value)))))
+(define (make-transaction id inputs outputs)
+  (transaction (calculate-transaction-hash id inputs outputs)
+               id
+               inputs
+               outputs))
 
-(define (transaction-verify-signature? transaction sig)
-  (let ([pubkey (wallet-public-key (transaction-from transaction))]
-        [sender (wallet-public-key (transaction-from transaction))]
-        [recipient (wallet-public-key (transaction-to transaction))]
-        [value (number->string (transaction-value transaction))])
-    (digest/verify (datum->pk-key (hex-string->bytes pubkey) 'SubjectPublicKeyInfo)
-                   'sha1
-                   (string->bytes/latin-1 (string-append sender recipient value))
-                   sig)))
+(define (valid-transaction? transaction)
+  (let ([sum-inputs (foldr + 0 (map (lambda (t) (transaction-input-value t)) (transaction-inputs transaction)))]
+        [sum-outputs (foldr + 0 (map (lambda (t) (transaction-output-value t)) (transaction-outputs transaction)))])
+  (and
+   (equal? (transaction-hash transaction) (calculate-transaction-hash (transaction-id transaction) (transaction-inputs transaction) (transaction-outputs transaction)))
+   (true-for-all? valid-transaction-signature? (transaction-inputs transaction))
+   (>= sum-inputs sum-outputs))))
 
-(provide (struct-out transaction) calculate-transaction-hash transaction-generate-signature transaction-verify-signature?)
+(provide (struct-out transaction) make-transaction valid-transaction?)

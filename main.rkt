@@ -4,20 +4,33 @@
 (require "blockchain.rkt")
 (require "wallet.rkt")
 (require "transaction.rkt")
+(require "transaction-io.rkt")
+(require racket/serialize)
+
+; Wallet and transaction test
+(define wallet-a (make-wallet))
+(define wallet-b (make-wallet))
+
+(define tr (make-transaction 1
+                             (list (make-transaction-input "hash" "1" 15 wallet-a))
+                             (list (make-transaction-output wallet-b 15))))
+
+(printf "Transaction is valid: ~a\n" (valid-transaction? tr))
 
 ; Blockchain test
 (define seed-hash (string->bytes/utf-8 "seed"))
-(define my-block (make-block "Hello world 1" seed-hash))
+(define my-block (make-block (~a (serialize "Hello World")) seed-hash))
 
 (define blockchain (blockchain-init my-block))
-(set! blockchain (blockchain-add blockchain "Hello world 2"))
-(set! blockchain (blockchain-add blockchain "Hello world 3"))
+(set! blockchain (blockchain-add blockchain (~a (serialize tr))))
+
+(define (deserialize-str s) (deserialize (read (open-input-string s))))
 
 (define (print-block block)
   (printf "Block information\n=================\nHash:\t~a\nHash_p:\t~a\nData:\t~a\nStamp:\t~a\nNonce:\t~a\n"
           (bytes->hex-string (block-hash block))
           (bytes->hex-string (block-previous-hash block))
-          (block-data block)
+          (block-data block) ; (deserialize-str (block-data block))
           (block-timestamp block)
           (block-nonce block)))
 
@@ -26,11 +39,3 @@
   (newline))
 
 (printf "Blockchain is valid: ~a\n" (blockchain-valid? blockchain))
-
-; Wallet and transaction test
-(define wallet-a (make-wallet))
-(define wallet-b (make-wallet))
-
-(define tr (transaction 1 wallet-a wallet-b 5 '()))
-(define signature (transaction-generate-signature tr))
-(printf "Transaction signature is valid: ~a\n" (transaction-verify-signature? tr signature))

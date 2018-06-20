@@ -15,6 +15,8 @@ Project structure:
 - `block.rkt` contains the implementation of a block.
 - `wallet.rkt` contains the implementation of a wallet.
 - `transaction.rkt` contains the implementation of transactions.
+- `transaction-io.rkt` contains the implementation for input and output transactions.
+- `utils.rkt` contains some generally useful procedures.
 
 Note that this is just an example cryptocurrency implementation in Scheme and is not intended to be run in production.
 

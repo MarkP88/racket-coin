@@ -1,4 +1,5 @@
 #lang racket
+(require racket/serialize)
 (define ASCII-ZERO (char->integer #\0))
 
 ;; [0-9A-Fa-f] -> Number from 0 to 15
@@ -34,4 +35,7 @@
     [(pred (first list)) (true-for-all? pred (rest list))]
     [else #f]))
 
-(provide hex-string->bytes true-for-all?)
+(define (struct->string s) (~a (serialize s)))
+(define (string->struct s) (deserialize (read (open-input-string s))))
+
+(provide hex-string->bytes true-for-all? struct->string string->struct)

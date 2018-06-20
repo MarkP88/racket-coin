@@ -1,11 +1,11 @@
 #lang racket
 (require (only-in sha bytes->hex-string))
+(require "utils.rkt")
 (require "block.rkt")
 (require "blockchain.rkt")
 (require "wallet.rkt")
 (require "transaction.rkt")
 (require "transaction-io.rkt")
-(require racket/serialize)
 
 ; Wallet and transaction test
 (define wallet-a (make-wallet))
@@ -19,18 +19,16 @@
 
 ; Blockchain test
 (define seed-hash (string->bytes/utf-8 "seed"))
-(define my-block (make-block (~a (serialize "Hello World")) seed-hash))
+(define my-block (make-block (struct->string "Hello World") seed-hash))
 
 (define blockchain (blockchain-init my-block))
-(set! blockchain (blockchain-add blockchain (~a (serialize tr))))
-
-(define (deserialize-str s) (deserialize (read (open-input-string s))))
+(set! blockchain (blockchain-add blockchain (struct->string tr)))
 
 (define (print-block block)
   (printf "Block information\n=================\nHash:\t~a\nHash_p:\t~a\nData:\t~a\nStamp:\t~a\nNonce:\t~a\n"
           (bytes->hex-string (block-hash block))
           (bytes->hex-string (block-previous-hash block))
-          (block-data block) ; (deserialize-str (block-data block))
+          (block-data block)
           (block-timestamp block)
           (block-nonce block)))
 

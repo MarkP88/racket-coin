@@ -14,7 +14,6 @@
         [(or #\f #\F) 15]
         [_ (error 'hex-char->number "invalid hex char: ~a\n" c)])))
 
-
 (define (hex-string->bytes str) (list->bytes (hex-string->bytelist str)))
 (define (hex-string->bytelist str)
   (with-input-from-string
@@ -29,4 +28,10 @@
                             (hex-char->number c2))
                          (loop))])))))
 
-(provide hex-string->bytes)
+(define (true-for-all? pred list)
+  (cond
+    [(empty? list) #t]
+    [(pred (first list)) (true-for-all? pred (rest list))]
+    [else #f]))
+
+(provide hex-string->bytes true-for-all?)

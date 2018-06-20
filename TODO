@@ -1,0 +1,2 @@
+- Refactor the code, ideally in the main.rkt example we should only be able to include blockchain.rkt and have all the necessary methods from there
+- Add some more validation for transaction-in and transaction-out

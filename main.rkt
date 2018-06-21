@@ -28,7 +28,7 @@
   (printf "Block information\n=================\nHash:\t~a\nHash_p:\t~a\nData:\t~a\nStamp:\t~a\nNonce:\t~a\n"
           (bytes->hex-string (block-hash block))
           (bytes->hex-string (block-previous-hash block))
-          (block-data block)
+          (bytes->hex-string (string->bytes/utf-8 (block-data block)))
           (block-timestamp block)
           (block-nonce block)))
 

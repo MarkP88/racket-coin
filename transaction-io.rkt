@@ -1,17 +1,15 @@
 #lang racket
-(require (only-in sha sha256))
-(require crypto)
-(require crypto/libcrypto)
-(require crypto/all)
-(require "wallet.rkt")
 (require "utils.rkt")
+(require "wallet.rkt")
+(require crypto)
+(require crypto/all)
 (require racket/serialize)
 
 ; We need to use all crypto factories for converting the key between hex<->pk-key
 (use-all-factories!)
 
-(serializable-struct transaction-input (signature hash index value from))
-(serializable-struct transaction-output (to value))
+(serializable-struct transaction-input (signature hash index value from) #:transparent)
+(serializable-struct transaction-output (to value) #:transparent)
 
 (define (sign-transaction-input hash index value from)
   (let ([privkey (wallet-private-key from)]

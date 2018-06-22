@@ -1,11 +1,6 @@
 #lang racket
-(require (only-in sha bytes->hex-string))
-(require "utils.rkt")
-(require "block.rkt")
 (require "blockchain.rkt")
-(require "wallet.rkt")
-(require "transaction.rkt")
-(require "transaction-io.rkt")
+(require "utils.rkt")
 
 ; Wallet and transaction test
 (define wallet-a (make-wallet))
@@ -19,21 +14,15 @@
 
 ; Blockchain test
 (define seed-hash (string->bytes/utf-8 "seed"))
-(define my-block (make-block (struct->string "Hello World") seed-hash))
+(define my-block (make-block "Hello World" seed-hash))
 
 (define blockchain (blockchain-init my-block))
-(set! blockchain (blockchain-add blockchain (struct->string tr)))
+(set! blockchain (blockchain-add blockchain tr))
 
-(define (print-block block)
-  (printf "Block information\n=================\nHash:\t~a\nHash_p:\t~a\nData:\t~a\nStamp:\t~a\nNonce:\t~a\n"
-          (bytes->hex-string (block-hash block))
-          (bytes->hex-string (block-previous-hash block))
-          (bytes->hex-string (string->bytes/utf-8 (block-data block)))
-          (block-timestamp block)
-          (block-nonce block)))
+(printf "Blockchain is valid: ~a\n" (blockchain-valid? blockchain))
+
+(newline)
 
 (for ([block blockchain])
   (print-block block)
   (newline))
-
-(printf "Blockchain is valid: ~a\n" (blockchain-valid? blockchain))

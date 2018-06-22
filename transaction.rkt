@@ -1,10 +1,10 @@
 #lang racket
-(require (only-in sha sha256))
-(require "utils.rkt")
 (require "transaction-io.rkt")
+(require "utils.rkt")
+(require (only-in sha sha256))
 (require racket/serialize)
 
-(serializable-struct transaction (hash id inputs outputs))
+(serializable-struct transaction (hash id inputs outputs) #:transparent)
 
 (define (calculate-transaction-hash id inputs outputs)
   (sha256 (bytes-append
@@ -26,4 +26,5 @@
    (true-for-all? valid-transaction-signature? (transaction-inputs transaction))
    (>= sum-inputs sum-outputs))))
 
-(provide (struct-out transaction) make-transaction valid-transaction?)
+(provide (all-from-out "transaction-io.rkt")
+         (struct-out transaction) make-transaction valid-transaction?)

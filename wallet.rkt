@@ -1,9 +1,9 @@
 #lang racket
 (require crypto)
-(require crypto/libcrypto)
 (require crypto/all)
 (require racket/serialize)
-(serializable-struct wallet (private-key public-key))
+
+(serializable-struct wallet (private-key public-key) #:transparent)
 
 (define (make-wallet)
   (letrec ([rsa-impl (get-pk 'rsa libcrypto-factory)]

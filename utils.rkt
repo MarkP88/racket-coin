@@ -1,5 +1,7 @@
 #lang racket
-(require racket/serialize)
+(require "block.rkt")
+(require (only-in sha bytes->hex-string))
+
 (define ASCII-ZERO (char->integer #\0))
 
 ;; [0-9A-Fa-f] -> Number from 0 to 15
@@ -35,7 +37,14 @@
     [(pred (first list)) (true-for-all? pred (rest list))]
     [else #f]))
 
-(define (struct->string s) (~a (serialize s)))
-(define (string->struct s) (deserialize (read (open-input-string s))))
+(define (print-block block)
+  (printf "Block information\n=================\nHash:\t~a\nHash_p:\t~a\nStamp:\t~a\nNonce:\t~a\n"
+          (bytes->hex-string (block-hash block))
+          (bytes->hex-string (block-previous-hash block))
+          (block-timestamp block)
+          (block-nonce block))
+  (printf "Data:\t")
+  (print (block-data block))
+  (printf "\n"))
 
-(provide hex-string->bytes true-for-all? struct->string string->struct)
+(provide hex-string->bytes true-for-all? print-block)

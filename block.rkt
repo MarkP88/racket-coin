@@ -1,5 +1,6 @@
 #lang racket
 (require (only-in sha sha256))
+(require racket/serialize)
 
 (define difficulty 2)
 (define target (make-bytes difficulty 32))
@@ -10,7 +11,7 @@
   (sha256 (bytes-append
            previous-hash
            (string->bytes/utf-8 (number->string timestamp))
-           (string->bytes/utf-8 data)
+           (string->bytes/utf-8 (~a (serialize data)))
            (string->bytes/utf-8 (number->string nonce)))))
 
 (define (valid-block? block)

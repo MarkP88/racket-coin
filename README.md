@@ -25,23 +25,25 @@ Example output:
 boro@bor0:~/Desktop/scheme-coin$ make run
 racket main.rkt
 Transaction is valid: #t
-Block information
-=================
-Hash:	fb2090676653b0bcda23e4db3dd6d6f1513307a27d06424dd174f6218560158f
-Hash_p:	5b203db03d917d7e3ab770cbbce199a3240f30f272ace040edb9be2c320b9cd2
-Data:	2828332920342028282f55736572732f626f726f2f4465736b746f702f736368...
-Stamp:	1529578072652
-Nonce:	507
-
-Block information
-=================
-Hash:	5b203db03d917d7e3ab770cbbce199a3240f30f272ace040edb9be2c320b9cd2
-Hash_p:	73656564
-Data:	28283329203020282920302028292028292048656c6c6f20576f726c6429
-Stamp:	1529578072650
-Nonce:	792
-
+Mining genesis block...
+Mining transaction...
 Blockchain is valid: #t
+
+Block information
+=================
+Hash:	9920fe6ca3738b399e2266567ef5aae2f82a9b748955aba6afbe93ce0945d307
+Hash_p:	c22015e6fb1641d81c43a219f801b237bda6e899b09b5e4cb0f0e56e5a80984e
+Stamp:	1529745156344
+Nonce:	829
+Data:	(transaction #"wD\322U\246\253h<l\205m8\27...
+
+Block information
+=================
+Hash:	c22015e6fb1641d81c43a219f801b237bda6e899b09b5e4cb0f0e56e5a80984e
+Hash_p:	7365656467656e65736973
+Stamp:	1529745156343
+Nonce:	49
+Data:	"Hello World"
 ```
 
 Boro Sitnikovski

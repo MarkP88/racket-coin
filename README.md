@@ -5,7 +5,7 @@ To clone me: Write `git clone git@github.com:bor0/scheme-coin.git`.
 You can run [DrRacket](https://racket-lang.org/) with `main.rkt`, or run `make` or `make run` from the command line.
 
 Some readings related to the project:
-- Logic is based on [this tutorial](https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa) (with over-simplified transactions logic).
+- Logic is based on [this tutorial](https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa) (with over-simplified transactions logic (no UTXO and just checks logic for the current inputs/outputs)).
 - Short theoretical tutorial [here](https://blockgeeks.com/guides/what-is-bitcoin/).
 - Bitcoin paper [here](https://bitcoin.org/bitcoin.pdf).
 

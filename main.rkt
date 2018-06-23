@@ -14,11 +14,11 @@
 
 ; Blockchain test
 (printf "Mining genesis block...\n")
-(define blockchain (blockchain-init "Hello World" (string->bytes/utf-8 "seedgenesis")))
+(define blockchain (init-blockchain "Hello World" (string->bytes/utf-8 "seedgenesis")))
 (printf "Mining transaction...\n")
-(set! blockchain (blockchain-add blockchain tr))
+(set! blockchain (add-blockchain blockchain tr))
 
-(printf "Blockchain is valid: ~a\n" (blockchain-valid? blockchain))
+(printf "Blockchain is valid: ~a\n" (valid-blockchain? blockchain))
 
 (newline)
 

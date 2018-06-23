@@ -4,13 +4,13 @@
 (require "utils.rkt")
 (require "wallet.rkt")
 
-(define (blockchain-init data seed-hash) (cons (mine-block data seed-hash) '()))
+(define (init-blockchain data seed-hash) (cons (mine-block data seed-hash) '()))
 
-(define (blockchain-add blockchain data)
-  (let ([blockchain-hashed (mine-block data (block-hash (car blockchain)))])
-    (cons blockchain-hashed blockchain)))
+(define (add-blockchain blockchain data)
+  (let ([hashed-blockchain (mine-block data (block-hash (car blockchain)))])
+    (cons hashed-blockchain blockchain)))
 
-(define (blockchain-valid? blockchain)
+(define (valid-blockchain? blockchain)
   (and
    ; Compare calculated hashes
    (true-for-all? valid-block? blockchain)
@@ -27,4 +27,4 @@
 (provide (all-from-out "block.rkt")
          (all-from-out "transaction.rkt")
          (all-from-out "wallet.rkt")
-         blockchain-init blockchain-add blockchain-valid?)
+         init-blockchain add-blockchain valid-blockchain?)

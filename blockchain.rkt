@@ -4,10 +4,10 @@
 (require "utils.rkt")
 (require "wallet.rkt")
 
-(define (blockchain-init blockchain) (cons blockchain '()))
+(define (blockchain-init data seed-hash) (cons (mine-block data seed-hash) '()))
 
 (define (blockchain-add blockchain data)
-  (let ([blockchain-hashed (make-block data (block-hash (car blockchain)))])
+  (let ([blockchain-hashed (mine-block data (block-hash (car blockchain)))])
     (cons blockchain-hashed blockchain)))
 
 (define (blockchain-valid? blockchain)

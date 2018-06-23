@@ -13,10 +13,9 @@
 (printf "Transaction is valid: ~a\n" (valid-transaction? tr))
 
 ; Blockchain test
-(define seed-hash (string->bytes/utf-8 "seed"))
-(define my-block (make-block "Hello World" seed-hash))
-
-(define blockchain (blockchain-init my-block))
+(printf "Mining genesis block...\n")
+(define blockchain (blockchain-init "Hello World" (string->bytes/utf-8 "seedgenesis")))
+(printf "Mining transaction...\n")
 (set! blockchain (blockchain-add blockchain tr))
 
 (printf "Blockchain is valid: ~a\n" (blockchain-valid? blockchain))

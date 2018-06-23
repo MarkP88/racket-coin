@@ -25,13 +25,13 @@
   (equal? (subbytes hash 1 difficulty)
           (subbytes target 1 difficulty)))
 
-(define (mine-block target previous-hash timestamp data nonce)
+(define (make-and-mine-block target previous-hash timestamp data nonce)
   (let ([hash (calculate-block-hash previous-hash timestamp data nonce)])
     (if (mined-block? hash)
         (block hash previous-hash data timestamp nonce)
-        (mine-block target previous-hash timestamp data (+ nonce 1)))))
+        (make-and-mine-block target previous-hash timestamp data (+ nonce 1)))))
 
-(define (make-block data previous-hash)
-  (mine-block target previous-hash (current-milliseconds) data 1))
+(define (mine-block data previous-hash)
+  (make-and-mine-block target previous-hash (current-milliseconds) data 1))
 
-(provide (struct-out block) make-block valid-block? mined-block?)
+(provide (struct-out block) mine-block valid-block? mined-block?)

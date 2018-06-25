@@ -40,11 +40,11 @@
                    (transaction-signature t))))
 
 (define (valid-transaction? transaction)
-  (let ([sum-inputs (foldr + 0 (map (lambda (t) (transaction-input-value t)) (transaction-inputs transaction)))]
-        [sum-outputs (foldr + 0 (map (lambda (t) (transaction-output-value t)) (transaction-outputs transaction)))])
+  (let ([sum-inputs (foldr + 0 (map (lambda (t) (transaction-io-value t)) (transaction-inputs transaction)))]
+        [sum-outputs (foldr + 0 (map (lambda (t) (transaction-io-value t)) (transaction-outputs transaction)))])
   (and
    (valid-transaction-signature? transaction)
-   (true-for-all? valid-transaction-input? (transaction-inputs transaction))
+   (true-for-all? valid-transaction-io? (transaction-outputs transaction))
    (>= sum-inputs sum-outputs))))
 
 (provide (all-from-out "transaction-io.rkt")

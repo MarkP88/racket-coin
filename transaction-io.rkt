@@ -5,18 +5,22 @@
 
 (serializable-struct transaction-io (hash value owner) #:transparent)
 
+; Procedure for calculating the hash of a transaction-io object
 (define (calculate-transaction-io-hash value owner)
   (sha256 (bytes-append
            (string->bytes/utf-8 (number->string value))
            (string->bytes/utf-8 (~a (serialize owner))))))
 
+; Make a transaction-io object with calculated hash
 (define (make-transaction-io value owner)
   (transaction-io
    (calculate-transaction-io-hash value owner)
    value
    owner))
 
+; A transaction-io is valid if...
 (define (valid-transaction-io? t-in)
+  ; the hash is correct
   (equal? (transaction-io-hash t-in)
           (calculate-transaction-io-hash (transaction-io-value t-in)
                                          (transaction-io-owner t-in))))

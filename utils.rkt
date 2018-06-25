@@ -4,7 +4,7 @@
 
 (define ASCII-ZERO (char->integer #\0))
 
-;; [0-9A-Fa-f] -> Number from 0 to 15
+; [0-9A-Fa-f] -> Number from 0 to 15
 (define (hex-char->number c)
   (if (char-numeric? c)
       (- (char->integer c) ASCII-ZERO)
@@ -17,6 +17,7 @@
         [(or #\f #\F) 15]
         [_ (error 'hex-char->number "invalid hex char: ~a\n" c)])))
 
+; Convert a hex string to bytes
 (define (hex-string->bytes str) (list->bytes (hex-string->bytelist str)))
 (define (hex-string->bytelist str)
   (with-input-from-string
@@ -31,6 +32,7 @@
                             (hex-char->number c2))
                          (loop))])))))
 
+; This procedure returns true if the predicate satisfies all members of the list
 (define (true-for-all? pred list)
   (cond
     [(empty? list) #t]

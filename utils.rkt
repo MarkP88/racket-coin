@@ -1,6 +1,6 @@
 #lang racket
 (require "block.rkt")
-(require (only-in sha bytes->hex-string))
+(require racket/serialize)
 
 (define ASCII-ZERO (char->integer #\0))
 
@@ -37,14 +37,5 @@
     [(pred (first list)) (true-for-all? pred (rest list))]
     [else #f]))
 
-(define (print-block block)
-  (printf "Block information\n=================\nHash:\t~a\nHash_p:\t~a\nStamp:\t~a\nNonce:\t~a\n"
-          (bytes->hex-string (block-hash block))
-          (bytes->hex-string (block-previous-hash block))
-          (block-timestamp block)
-          (block-nonce block))
-  (printf "Data:\t")
-  (print (block-transaction block))
-  (printf "\n"))
 
-(provide hex-string->bytes true-for-all? print-block)
+(provide hex-string->bytes true-for-all?)

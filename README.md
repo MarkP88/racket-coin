@@ -11,12 +11,13 @@ Some readings related to the project:
 
 Project structure:
 - `main.rkt` contains an example code which uses the other files.
-- `blockchain.rkt` contains the implementation of the blockchain.
-- `block.rkt` contains the implementation of a block.
-- `wallet.rkt` contains the implementation of a wallet.
-- `transaction.rkt` contains the implementation of transactions.
-- `transaction-io.rkt` contains the implementation for input and output transactions.
-- `utils.rkt` contains some generally useful procedures.
+- `src/` contains all the files for the actual implementation:
+  - `blockchain.rkt` contains the implementation of the blockchain.
+  - `block.rkt` contains the implementation of a block.
+  - `wallet.rkt` contains the implementation of a wallet.
+  - `transaction.rkt` contains the implementation of transactions.
+  - `transaction-io.rkt` contains the implementation for input and output transactions.
+  - `utils.rkt` contains some generally useful procedures.
 
 Note that this is just an example cryptocurrency implementation in Scheme and is not intended to be run in production.
 
@@ -63,6 +64,8 @@ Hash_p:	7365656467656e65736973
 Stamp:	1529923610332
 Nonce:	220
 Data:	...58d498c68aefe93a... sends ...896a71a68be970f6... an amount of 100.
+
+Exported blockchain to 'blockchain.data'...
 ```
 
 Boro Sitnikovski

@@ -1,6 +1,6 @@
 #lang racket
-(require "blockchain.rkt")
-(require "utils.rkt")
+(require "./src/blockchain.rkt")
+(require "./src/utils.rkt")
 (require (only-in sha bytes->hex-string))
 
 (define (format-transaction t)

@@ -22,6 +22,12 @@
     (print-block block)
     (newline)))
 
+(when (file-exists? "blockchain.data")
+  (begin
+    (printf "Found 'blockchain.data', reading...\n")
+    (print-blockchain (file->struct "blockchain.data"))
+    (exit)))
+
 ; Initialize wallets
 (define scheme-coin-base (make-wallet))
 (define wallet-a (make-wallet))
@@ -92,3 +98,6 @@
 (for ([block (blockchain-blocks blockchain)])
   (print-block block)
   (newline))
+
+(struct->file blockchain "blockchain.data")
+(printf "Exported blockchain to 'blockchain.data'...\n")

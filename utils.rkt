@@ -37,5 +37,17 @@
     [(pred (first list)) (true-for-all? pred (rest list))]
     [else #f]))
 
+; Export a struct to a file
+(define (struct->file object file)
+  (let ([out (open-output-file file #:exists 'replace)])
+    (write (serialize object) out)
+    (close-output-port out)))
 
-(provide hex-string->bytes true-for-all?)
+; Import struct contents from a file
+(define (file->struct file)
+  (letrec ([in (open-input-file file)]
+           [result (read in)])
+    (close-input-port in)
+    (deserialize result)))
+
+(provide hex-string->bytes true-for-all? struct->file file->struct)

@@ -44,7 +44,7 @@
         [sum-outputs (foldr + 0 (map (lambda (t) (transaction-output-value t)) (transaction-outputs transaction)))])
   (and
    (valid-transaction-signature? transaction)
-   (true-for-all? valid-transaction-signature? (transaction-inputs transaction))
+   (true-for-all? valid-transaction-input? (transaction-inputs transaction))
    (>= sum-inputs sum-outputs))))
 
 (provide (all-from-out "transaction-io.rkt")

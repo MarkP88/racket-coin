@@ -2,7 +2,7 @@ Scheme-Coin v1.0 by Boro Sitnikovski
 ====================================
 To clone me: Write `git clone git@github.com:bor0/scheme-coin.git`.
 
-You can run [DrRacket](https://racket-lang.org/) with `main.rkt`. Otherwise, for command line, first install dependencies by writing `raco pkg install sha crypto-lib` and then run `make` or `make run`.
+You can run [DrRacket](https://racket-lang.org/) with `main.rkt`. Otherwise, for command line, first install dependencies by writing `make deps` and then run `make` or `make run`.
 
 Some readings related to the project:
 - Logic is based on [this tutorial](https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa).

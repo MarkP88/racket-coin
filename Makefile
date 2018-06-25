@@ -4,5 +4,8 @@ all:
 clean:
 	rm -rf main *.rkt~ src/*.rkt~ src/compiled blockchain.data
 
+deps:
+	raco pkg install sha crypto-lib
+
 run:
 	racket main.rkt

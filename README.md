@@ -2,10 +2,10 @@ Scheme-Coin v1.0 by Boro Sitnikovski
 ====================================
 To clone me: Write `git clone git@github.com:bor0/scheme-coin.git`.
 
-You can run [DrRacket](https://racket-lang.org/) with `main.rkt`, or run `make` or `make run` from the command line.
+You can run [DrRacket](https://racket-lang.org/) with `main.rkt`. Otherwise, for command line, first install dependencies by writing `raco pkg install sha crypto-lib` and then run `make` or `make run`.
 
 Some readings related to the project:
-- Logic is based on [this tutorial](https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa) (with over-simplified transactions logic (no UTXO and just checks logic for the current inputs/outputs)).
+- Logic is based on [this tutorial](https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa).
 - Short theoretical tutorial [here](https://blockgeeks.com/guides/what-is-bitcoin/).
 - Bitcoin paper [here](https://bitcoin.org/bitcoin.pdf).
 
@@ -22,28 +22,47 @@ Note that this is just an example cryptocurrency implementation in Scheme and is
 
 Example output:
 ```
-boro@bor0:~/Desktop/scheme-coin$ make run
-racket main.rkt
-Transaction is valid: #t
+Making genesis transaction...
 Mining genesis block...
-Mining transaction...
+
+Wallet A balance: 100
+Wallet B balance: 0
+
+Mining second transaction...
+
+Wallet A balance: 80
+Wallet B balance: 20
+
+Mining third transaction...
+
+Wallet A balance: 90
+Wallet B balance: 10
+
 Blockchain is valid: #t
 
 Block information
 =================
-Hash:	9920fe6ca3738b399e2266567ef5aae2f82a9b748955aba6afbe93ce0945d307
-Hash_p:	c22015e6fb1641d81c43a219f801b237bda6e899b09b5e4cb0f0e56e5a80984e
-Stamp:	1529745156344
-Nonce:	829
-Data:	(transaction #"wD\322U\246\253h<l\205m8\27...
+Hash:	e720bb198279a76057280bdf8eb667fe1883d0ae263c5d5d1be08697a2f534d1
+Hash_p:	38200563c1f807be2a5d10ec42dd53acae1f6f804b4c93016b87c974817f065d
+Stamp:	1529923610574
+Nonce:	216
+Data:	...bb6573e30a994990... sends ...896a71a68be970f6... an amount of 10.
 
 Block information
 =================
-Hash:	c22015e6fb1641d81c43a219f801b237bda6e899b09b5e4cb0f0e56e5a80984e
+Hash:	38200563c1f807be2a5d10ec42dd53acae1f6f804b4c93016b87c974817f065d
+Hash_p:	6a20fbe4038bb3b83090e7f767bb24af5164218bba5c751a1858262df2a2a847
+Stamp:	1529923610405
+Nonce:	752
+Data:	...896a71a68be970f6... sends ...bb6573e30a994990... an amount of 20.
+
+Block information
+=================
+Hash:	6a20fbe4038bb3b83090e7f767bb24af5164218bba5c751a1858262df2a2a847
 Hash_p:	7365656467656e65736973
-Stamp:	1529745156343
-Nonce:	49
-Data:	"Hello World"
+Stamp:	1529923610332
+Nonce:	220
+Data:	...58d498c68aefe93a... sends ...896a71a68be970f6... an amount of 100.
 ```
 
 Boro Sitnikovski

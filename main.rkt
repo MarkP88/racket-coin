@@ -6,9 +6,7 @@
 (define wallet-a (make-wallet))
 (define wallet-b (make-wallet))
 
-(define tr (make-transaction 1
-                             (list (make-transaction-input "hash" "1" 15 wallet-a))
-                             (list (make-transaction-output wallet-b 15))))
+(define tr (make-transaction wallet-a wallet-b 15 '()))
 
 (printf "Transaction is valid: ~a\n" (valid-transaction? tr))
 

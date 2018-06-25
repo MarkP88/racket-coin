@@ -20,7 +20,7 @@
    ; Any data that is a transaction should be valid
    (true-for-all?
     (lambda (block)
-      (if (transaction? (block-data block)) (valid-transaction? (block-data block)) #t)) blockchain)
+      (if (transaction? (block-transaction block)) (valid-transaction? (block-transaction block)) #t)) blockchain)
    ; Check that block is mined
    (true-for-all? mined-block? (map block-hash blockchain))))
 

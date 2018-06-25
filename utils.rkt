@@ -44,7 +44,7 @@
           (block-timestamp block)
           (block-nonce block))
   (printf "Data:\t")
-  (print (block-data block))
+  (print (block-transaction block))
   (printf "\n"))
 
 (provide hex-string->bytes true-for-all? print-block)

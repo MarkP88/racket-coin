@@ -31,6 +31,11 @@
            [t (make-transaction from to value my-ts)])
     (add-blockchain b t)))
 
+(define (balance-wallet-blockchain b w)
+  (letrec ([utxo (blockchain-utxo b)]
+           [my-ts (filter (lambda (t) (equal? w (transaction-io-owner t))) utxo)])
+    (foldr + 0 (map (lambda (t) (transaction-io-value t)) my-ts))))
+
 (define (valid-blockchain? b)
   (let ([blocks (blockchain-blocks b)])
     (and
@@ -48,4 +53,4 @@
          (all-from-out "transaction.rkt")
          (all-from-out "wallet.rkt")
          (struct-out blockchain)
-         init-blockchain send-money-blockchain valid-blockchain?)
+         init-blockchain send-money-blockchain balance-wallet-blockchain valid-blockchain?)

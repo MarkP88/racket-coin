@@ -7,10 +7,6 @@
 (define wallet-a (make-wallet))
 (define wallet-b (make-wallet))
 
-(define tr (make-transaction wallet-a wallet-b 15 '()))
-
-(printf "Transaction is valid: ~a\n" (valid-transaction? tr))
-
 (define utxo (list
               (make-transaction-io 100 wallet-a)))
 
@@ -25,7 +21,7 @@
 (printf "Mining genesis block...\n")
 (define blockchain (init-blockchain genesis-t (string->bytes/utf-8 "seedgenesis") utxo))
 (printf "Mining transaction...\n")
-(set! blockchain (add-blockchain blockchain tr))
+(set! blockchain (send-money-blockchain blockchain wallet-a wallet-b 50))
 
 (printf "Blockchain is valid: ~a\n" (valid-blockchain? blockchain))
 

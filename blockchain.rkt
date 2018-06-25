@@ -11,9 +11,25 @@
   (blockchain (cons (mine-block (process-transaction t) seed-hash) '())
               utxo))
 
+(define (add-transaction-to-blockchain b t)
+  (letrec ([hashed-blockchain (mine-block t (block-hash (car (blockchain-blocks b))))]
+           [processed-inputs (transaction-inputs t)]
+           [processed-outputs (transaction-outputs t)]
+           [utxo (set-union processed-outputs (set-subtract (blockchain-utxo b) processed-inputs))])
+    (blockchain
+     (cons hashed-blockchain (blockchain-blocks b))
+     utxo)))
+
 (define (add-blockchain b t)
-  (let ([hashed-blockchain (mine-block t (block-hash (car (blockchain-blocks b))))])
-    (blockchain (cons hashed-blockchain (blockchain-blocks b)) (blockchain-utxo b))))
+  (let ([processed-transaction (process-transaction t)])
+    (if (valid-transaction? processed-transaction)
+        (add-transaction-to-blockchain b processed-transaction)
+        b)))
+
+(define (send-money-blockchain b from to value)
+  (letrec ([my-ts (filter (lambda (t) (equal? from (transaction-io-owner t))) (blockchain-utxo b))]
+           [t (make-transaction from to value my-ts)])
+    (add-blockchain b t)))
 
 (define (valid-blockchain? b)
   (let ([blocks (blockchain-blocks b)])
@@ -23,10 +39,8 @@
      ; Compare previous hashes
      (equal? (drop-right (map block-previous-hash blocks) 1)
              (cdr (map block-hash blocks)))
-     ; Any data that is a transaction should be valid
-     (true-for-all?
-      (lambda (block)
-        (if (transaction? (block-transaction block)) (valid-transaction? (block-transaction block)) #t)) blocks)
+     ; All transactions are valid
+     (true-for-all? valid-transaction? (map (lambda (block) (block-transaction block)) blocks))
      ; Check that block is mined
      (true-for-all? mined-block? (map block-hash blocks)))))
 
@@ -34,4 +48,4 @@
          (all-from-out "transaction.rkt")
          (all-from-out "wallet.rkt")
          (struct-out blockchain)
-         init-blockchain add-blockchain valid-blockchain?)
+         init-blockchain send-money-blockchain valid-blockchain?)

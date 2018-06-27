@@ -17,23 +17,23 @@
   (letrec ([hashed-blockchain (mine-block t (block-hash (car (blockchain-blocks b))))]
            [processed-inputs (transaction-inputs t)]
            [processed-outputs (transaction-outputs t)]
-           [utxo (set-union processed-outputs (set-subtract (blockchain-utxo b) processed-inputs))])
+           [utxo (set-union processed-outputs (set-subtract (blockchain-utxo b) processed-inputs))]
+           [utxo-rewarded (cons (make-transaction-io 100 (transaction-from t)) utxo)])
     (blockchain
      (cons hashed-blockchain (blockchain-blocks b))
-     utxo)))
-
-; Adds a transaction to the blockchain if it's a valid one when processed
-(define (add-blockchain b t)
-  (let ([processed-transaction (process-transaction t)])
-    (if (valid-transaction? processed-transaction)
-        (add-transaction-to-blockchain b processed-transaction)
-        b)))
+     utxo-rewarded)))
 
 ; Send money from one wallet to another by initiating transaction, and then adding it to the blockchain for processing
 (define (send-money-blockchain b from to value)
   (letrec ([my-ts (filter (lambda (t) (equal? from (transaction-io-owner t))) (blockchain-utxo b))]
            [t (make-transaction from to value my-ts)])
-    (add-blockchain b t)))
+    (if (transaction? t)
+        (let ([processed-transaction (process-transaction t)])
+          (if (and (>= (balance-wallet-blockchain b from) value)
+                   (valid-transaction? processed-transaction))
+              (add-transaction-to-blockchain b processed-transaction)
+              b))
+        (add-transaction-to-blockchain b '()))))
 
 ; The balance of a wallet is determined by the sum of all unspent transactions for the matching owner
 (define (balance-wallet-blockchain b w)

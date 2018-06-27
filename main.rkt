@@ -22,6 +22,11 @@
     (print-block block)
     (newline)))
 
+(define (print-wallets wallet-a wallet-b)
+  (printf "\nWallet A balance: ~a\nWallet B balance: ~a\n\n"
+          (balance-wallet-blockchain blockchain wallet-a)
+          (balance-wallet-blockchain blockchain wallet-b)))
+
 (when (file-exists? "blockchain.data")
   (begin
     (printf "Found 'blockchain.data', reading...\n")
@@ -35,10 +40,7 @@
 
 ; Transactions
 (printf "Making genesis transaction...\n")
-(define genesis-t (make-transaction scheme-coin-base
-                                    wallet-a
-                                    100
-                                    '()))
+(define genesis-t (make-transaction scheme-coin-base wallet-a 100 '()))
 
 ; Unspent transactions (store our genesis transaction)
 (define utxo (list
@@ -46,54 +48,25 @@
 
 ; Blockchain initiation
 (printf "Mining genesis block...\n")
-(define blockchain (init-blockchain
-                    genesis-t
-                    (string->bytes/utf-8 "seedgenesis")
-                    utxo))
-
-(newline)
-
-(printf "Wallet A balance: ~a\nWallet B balance: ~a\n"
-        (balance-wallet-blockchain blockchain wallet-a)
-        (balance-wallet-blockchain blockchain wallet-b))
-
-(newline)
+(define blockchain (init-blockchain genesis-t (string->bytes/utf-8 "seedgenesis") utxo))
+(print-wallets wallet-a wallet-b)
 
 ; Make a second transaction
 (printf "Mining second transaction...\n")
-(set! blockchain (send-money-blockchain
-                  blockchain
-                  wallet-a
-                  wallet-b
-                  20))
-
-(newline)
-
-(printf "Wallet A balance: ~a\nWallet B balance: ~a\n"
-        (balance-wallet-blockchain blockchain wallet-a)
-        (balance-wallet-blockchain blockchain wallet-b))
-
-(newline)
+(set! blockchain (send-money-blockchain blockchain wallet-a wallet-b 20))
+(print-wallets wallet-a wallet-b)
 
 ; Make a third transaction
 (printf "Mining third transaction...\n")
-(set! blockchain (send-money-blockchain
-                  blockchain
-                  wallet-b
-                  wallet-a
-                  10))
+(set! blockchain (send-money-blockchain blockchain wallet-b wallet-a 10))
+(print-wallets wallet-a wallet-b)
 
-(newline)
+; Attempt to make a fourth transaction
+(printf "Attempting to mine fourth (not-valid) transaction...\n")
+(set! blockchain (send-money-blockchain blockchain wallet-b wallet-a 200))
+(print-wallets wallet-a wallet-b)
 
-(printf "Wallet A balance: ~a\nWallet B balance: ~a\n"
-        (balance-wallet-blockchain blockchain wallet-a)
-        (balance-wallet-blockchain blockchain wallet-b))
-
-(newline)
-
-(printf "Blockchain is valid: ~a\n" (valid-blockchain? blockchain))
-
-(newline)
+(printf "Blockchain is valid: ~a\n\n" (valid-blockchain? blockchain))
 
 (for ([block (blockchain-blocks blockchain)])
   (print-block block)

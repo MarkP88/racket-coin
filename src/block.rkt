@@ -16,13 +16,13 @@
            (string->bytes/utf-8 (number->string nonce)))))
 
 ; A block is valid if...
-(define (valid-block? block)
+(define (valid-block? bl)
   ; the hash is correct
-  (equal? (block-hash block)
-          (calculate-block-hash (block-previous-hash block)
-                                (block-timestamp block)
-                                (block-transaction block)
-                                (block-nonce block))))
+  (equal? (block-hash bl)
+          (calculate-block-hash (block-previous-hash bl)
+                                (block-timestamp bl)
+                                (block-transaction bl)
+                                (block-nonce bl))))
 
 ; A block is mined if
 (define (mined-block? hash)

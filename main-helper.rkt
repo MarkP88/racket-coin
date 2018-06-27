@@ -9,23 +9,23 @@
           (substring (wallet-public-key (transaction-to t)) 64 80)
           (transaction-value t)))
 
-(define (print-block block)
+(define (print-block bl)
   (printf "Block information\n=================\nHash:\t~a\nHash_p:\t~a\nStamp:\t~a\nNonce:\t~a\nData:\t~a\n"
-          (bytes->hex-string (block-hash block))
-          (bytes->hex-string (block-previous-hash block))
-          (block-timestamp block)
-          (block-nonce block)
-          (format-transaction (block-transaction block))))
+          (bytes->hex-string (block-hash bl))
+          (bytes->hex-string (block-previous-hash bl))
+          (block-timestamp bl)
+          (block-nonce bl)
+          (format-transaction (block-transaction bl))))
 
 (define (print-blockchain b)
   (for ([block (blockchain-blocks b)])
     (print-block block)
     (newline)))
 
-(define (print-wallets blockchain wallet-a wallet-b)
+(define (print-wallets b wallet-a wallet-b)
   (printf "\nWallet A balance: ~a\nWallet B balance: ~a\n\n"
-          (balance-wallet-blockchain blockchain wallet-a)
-          (balance-wallet-blockchain blockchain wallet-b)))
+          (balance-wallet-blockchain b wallet-a)
+          (balance-wallet-blockchain b wallet-b)))
 
 (provide (all-from-out "./src/blockchain.rkt")
          (all-from-out "./src/utils.rkt")

@@ -11,6 +11,7 @@ Some readings related to the project:
 
 Project structure:
 - `main.rkt` contains an example code which uses the other files.
+- `main-helper.rkt` contains printing and other helper procedures for `main.rkt`.
 - `src/` contains all the files for the actual implementation:
   - `blockchain.rkt` contains the implementation of the blockchain.
   - `block.rkt` contains the implementation of a block.
@@ -31,13 +32,18 @@ Wallet B balance: 0
 
 Mining second transaction...
 
-Wallet A balance: 80
+Wallet A balance: 180
 Wallet B balance: 20
 
 Mining third transaction...
 
-Wallet A balance: 90
-Wallet B balance: 10
+Wallet A balance: 190
+Wallet B balance: 110
+
+Attempting to mine fourth (not-valid) transaction...
+
+Wallet A balance: 190
+Wallet B balance: 110
 
 Blockchain is valid: #t
 

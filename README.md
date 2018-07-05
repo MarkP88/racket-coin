@@ -32,18 +32,18 @@ Wallet B balance: 0
 
 Mining second transaction...
 
-Wallet A balance: 180
+Wallet A balance: 130
 Wallet B balance: 20
 
 Mining third transaction...
 
-Wallet A balance: 190
-Wallet B balance: 110
+Wallet A balance: 140
+Wallet B balance: 60
 
 Attempting to mine fourth (not-valid) transaction...
 
-Wallet A balance: 190
-Wallet B balance: 110
+Wallet A balance: 140
+Wallet B balance: 60
 
 Blockchain is valid: #t
 

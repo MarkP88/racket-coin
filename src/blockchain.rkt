@@ -12,15 +12,20 @@
   (blockchain (cons (mine-block (process-transaction t) seed-hash) '())
               utxo))
 
+; Start with 50 coins initially, and halve them on every 210000 blocks
+(define (mining-reward-factor blocks)
+  (/ 50 (expt 2 (floor (/ (length blocks) 210000)))))
+
 ; Add transaction to blockchain by processing the unspent transaction outputs
 (define (add-transaction-to-blockchain b t)
   (letrec ([hashed-blockchain (mine-block t (block-hash (car (blockchain-blocks b))))]
            [processed-inputs (transaction-inputs t)]
            [processed-outputs (transaction-outputs t)]
            [utxo (set-union processed-outputs (set-subtract (blockchain-utxo b) processed-inputs))]
-           [utxo-rewarded (cons (make-transaction-io 100 (transaction-from t)) utxo)])
+           [new-blocks (cons hashed-blockchain (blockchain-blocks b))]
+           [utxo-rewarded (cons (make-transaction-io (mining-reward-factor new-blocks) (transaction-from t)) utxo)])
     (blockchain
-     (cons hashed-blockchain (blockchain-blocks b))
+     new-blocks
      utxo-rewarded)))
 
 ; Send money from one wallet to another by initiating transaction, and then adding it to the blockchain for processing

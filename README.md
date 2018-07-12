@@ -12,6 +12,7 @@ Some readings related to the project:
 Project structure:
 - `main.rkt` contains an example code which uses the other files.
 - `main-helper.rkt` contains printing and other helper procedures for `main.rkt`.
+- `main-p2p.rkt` contains an example code which uses the other files, plus peer-to-peer support.
 - `src/` contains all the files for the actual implementation:
   - `blockchain.rkt` contains the implementation of the blockchain.
   - `block.rkt` contains the implementation of a block.
@@ -19,6 +20,7 @@ Project structure:
   - `transaction.rkt` contains the implementation of transactions.
   - `transaction-io.rkt` contains the implementation for input and output transactions.
   - `utils.rkt` contains some generally useful procedures.
+  - `peer-to-peer.rkt` contains procedures for syncing blockchains between peers, syncing valid peers, etc.
 
 Note that this is just an example cryptocurrency implementation in Scheme and is not intended to be run in production.
 
@@ -72,6 +74,43 @@ Nonce:	220
 Data:	...58d498c68aefe93a... sends ...896a71a68be970f6... an amount of 100.
 
 Exported blockchain to 'blockchain.data'...
+```
+
+Peer to peer example:
+1. Run the first peer by doing `racket main-p2p.rkt test.data 7000 127.0.0.1:7001,127.0.0.1:7002`, and wait a few seconds so that it can populate the DB.
+Now close the peer. You should get similar output to:
+```
+boro@bor0:~$ racket main-p2p.rkt test.data 7000 127.0.0.1:7001,127.0.0.1:7002
+Making genesis transaction...
+Mining genesis block...
+Mined a block!
+Mined a block!
+Exported blockchain to 'test.data'...
+Peer Test peer reports 2 valid peers.
+Mined a block!
+```
+2. Run the second peer by doing `racket main-p2p.rkt test-2.data 7001 127.0.0.1:7000`, and wait a few seconds so that it can populate the DB. Should get similar output to above.
+3. Now re-run the first peer, while keeping the second peer active. After a few mins, you should get:
+```
+Blockchain updated for peer Test peer
+Mined a block!
+Mined a block!
+Exported blockchain to 'test.data'...
+```
+Depending on which of the peers has a bigger effort on the blockchain, both files should match it.
+
+To double check, we compare the DB before:
+```
+boro@bor0:~/misc/sources/scheme-coin$ ls -al test*.data
+-rw-r--r--  1 boro  staff  5232 Jul 13 01:41 test-2.data
+-rw-r--r--  1 boro  staff  3849 Jul 13 01:41 test.data
+```
+
+And after the peers have synced:
+```
+boro@bor0:~/misc/sources/scheme-coin$ ls -al test*.data
+-rw-r--r--  1 boro  staff  5232 Jul 13 01:41 test-2.data
+-rw-r--r--  1 boro  staff  5232 Jul 13 01:41 test.data
 ```
 
 Boro Sitnikovski

@@ -1,6 +1,7 @@
 #lang racket
 (require "./src/blockchain.rkt")
 (require "./src/utils.rkt")
+(require "./src/peer-to-peer.rkt")
 
 (require (only-in sha bytes->hex-string))
 
@@ -30,4 +31,5 @@
 
 (provide (all-from-out "./src/blockchain.rkt")
          (all-from-out "./src/utils.rkt")
+         (all-from-out "./src/peer-to-peer.rkt")
          format-transaction print-block print-blockchain print-wallets)

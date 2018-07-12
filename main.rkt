@@ -22,7 +22,7 @@
 
 ; Blockchain initiation
 (printf "Mining genesis block...\n")
-(define blockchain (init-blockchain genesis-t (string->bytes/utf-8 "seedgenesis") utxo))
+(define blockchain (init-blockchain genesis-t "1337cafe" utxo))
 (print-wallets blockchain wallet-a wallet-b)
 
 ; Make a second transaction

@@ -1,19 +1,21 @@
 #lang racket
+(require "utils.rkt")
 (require (only-in sha sha256))
+(require (only-in sha bytes->hex-string))
 (require racket/serialize)
 
 (define difficulty 2)
-(define target (make-bytes difficulty 32))
+(define target (bytes->hex-string (make-bytes difficulty 32)))
 
 (struct block (hash previous-hash transaction timestamp nonce) #:prefab)
 
 ; Procedure for calculating block hash
 (define (calculate-block-hash previous-hash timestamp transaction nonce)
-  (sha256 (bytes-append
-           previous-hash
+  (bytes->hex-string (sha256 (bytes-append
+           (string->bytes/utf-8 previous-hash)
            (string->bytes/utf-8 (number->string timestamp))
            (string->bytes/utf-8 (~a (serialize transaction)))
-           (string->bytes/utf-8 (number->string nonce)))))
+           (string->bytes/utf-8 (number->string nonce))))))
 
 ; A block is valid if...
 (define (valid-block? bl)
@@ -27,8 +29,8 @@
 ; A block is mined if
 (define (mined-block? hash)
   ; the hash matches the target, given the difficulty
-  (equal? (subbytes hash 1 difficulty)
-          (subbytes target 1 difficulty)))
+  (equal? (subbytes (hex-string->bytes hash) 1 difficulty)
+          (subbytes (hex-string->bytes target) 1 difficulty)))
 
 ; Hashcash implementation
 (define (make-and-mine-block target previous-hash timestamp transaction nonce)

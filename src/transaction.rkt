@@ -15,12 +15,12 @@
 (define (sign-transaction from to value)
   (let ([privkey (wallet-private-key from)]
         [pubkey (wallet-public-key from)])
-    (digest/sign (datum->pk-key (hex-string->bytes privkey) 'PrivateKeyInfo)
+    (bytes->hex-string (digest/sign (datum->pk-key (hex-string->bytes privkey) 'PrivateKeyInfo)
                  'sha1
                  (bytes-append
                   (string->bytes/utf-8 (~a (serialize from)))
                   (string->bytes/utf-8 (~a (serialize to)))
-                  (string->bytes/utf-8 (number->string value))))))
+                  (string->bytes/utf-8 (number->string value)))))))
 
 ; Make an empty, unprocessed and unsigned transaction
 (define (make-transaction from to value inputs)
@@ -64,7 +64,7 @@
                     (string->bytes/utf-8 (~a (serialize (transaction-from t))))
                     (string->bytes/utf-8 (~a (serialize (transaction-to t))))
                     (string->bytes/utf-8 (number->string (transaction-value t))))
-                   (transaction-signature t))))
+                   (hex-string->bytes (transaction-signature t)))))
 
 ; A transaction is valid if...
 (define (valid-transaction? t)

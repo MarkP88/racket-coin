@@ -1,16 +1,16 @@
 #lang racket
-(require "utils.rkt")
 (require (only-in sha sha256))
+(require (only-in sha bytes->hex-string))
 (require racket/serialize)
 
 (struct transaction-io (hash value owner timestamp) #:prefab)
 
 ; Procedure for calculating the hash of a transaction-io object
 (define (calculate-transaction-io-hash value owner timestamp)
-  (sha256 (bytes-append
+  (bytes->hex-string (sha256 (bytes-append
            (string->bytes/utf-8 (number->string value))
            (string->bytes/utf-8 (~a (serialize owner)))
-           (string->bytes/utf-8 (number->string timestamp)))))
+           (string->bytes/utf-8 (number->string timestamp))))))
 
 ; Make a transaction-io object with calculated hash
 (define (make-transaction-io value owner)

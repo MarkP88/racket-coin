@@ -1,5 +1,4 @@
 #lang racket
-(require "block.rkt")
 (require racket/serialize)
 
 (define ASCII-ZERO (char->integer #\0))

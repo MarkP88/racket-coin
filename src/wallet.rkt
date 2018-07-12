@@ -1,9 +1,8 @@
 #lang racket
 (require crypto)
 (require crypto/all)
-(require racket/serialize)
 
-(serializable-struct wallet (private-key public-key) #:transparent)
+(struct wallet (private-key public-key) #:prefab)
 
 ; Make wallet by generating random public and private keys.
 (define (make-wallet)

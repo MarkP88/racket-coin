@@ -3,9 +3,8 @@
 (require "transaction.rkt")
 (require "utils.rkt")
 (require "wallet.rkt")
-(require racket/serialize)
 
-(serializable-struct blockchain (blocks utxo))
+(struct blockchain (blocks utxo) #:prefab)
 
 ; Procedure for initialization of the blockchain
 (define (init-blockchain t seed-hash utxo)

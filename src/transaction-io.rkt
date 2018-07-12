@@ -3,7 +3,7 @@
 (require (only-in sha sha256))
 (require racket/serialize)
 
-(serializable-struct transaction-io (hash value owner timestamp) #:transparent)
+(struct transaction-io (hash value owner timestamp) #:prefab)
 
 ; Procedure for calculating the hash of a transaction-io object
 (define (calculate-transaction-io-hash value owner timestamp)

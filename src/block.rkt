@@ -5,7 +5,7 @@
 (define difficulty 2)
 (define target (make-bytes difficulty 32))
 
-(serializable-struct block (hash previous-hash transaction timestamp nonce) #:transparent)
+(struct block (hash previous-hash transaction timestamp nonce) #:prefab)
 
 ; Procedure for calculating block hash
 (define (calculate-block-hash previous-hash timestamp transaction nonce)

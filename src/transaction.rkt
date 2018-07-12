@@ -6,7 +6,7 @@
 (require crypto/all)
 (require racket/serialize)
 
-(serializable-struct transaction (signature from to value inputs outputs) #:transparent)
+(struct transaction (signature from to value inputs outputs) #:prefab)
 
 ; We need to use all crypto factories for converting the key between hex<->pk-key
 (use-all-factories!)

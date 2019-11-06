@@ -113,6 +113,14 @@ boro@bor0:~/misc/sources/scheme-coin$ ls -al test*.data
 -rw-r--r--  1 boro  staff  5232 Jul 13 01:41 test.data
 ```
 
+Basic support for smart contracts is implemented. To use it in action, write this to `contract.script`:
+
+```racket
+(if (or (= value 100) (= value 20)) true false)
+```
+
+Next time you run `make run` it will only allow the example transactions in `main.rkt` of value 100 and 20.
+
 Boro Sitnikovski
 
 Licensed under GPL.  Read LICENSE for more information.

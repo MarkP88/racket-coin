@@ -63,7 +63,7 @@
 
 ; Procedure to keep mining empty blocks, as the p2p runs in threaded mode.
 (define (mine-loop)
-  (let ([newer-blockchain (send-money-blockchain (get-blockchain) wallet-a wallet-a 1)]) ; This blockchain includes a new block
+  (let ([newer-blockchain (send-money-blockchain (get-blockchain) wallet-a wallet-a 1 (file->contract "contract.script"))]) ; This blockchain includes a new block
     (set-peer-context-data-blockchain! peer-context newer-blockchain)
     (displayln "Mined a block!")
     (sleep 5)

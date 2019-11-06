@@ -5,6 +5,7 @@
 (require crypto)
 (require crypto/all)
 (require racket/serialize)
+(require (only-in file/sha1 hex-string->bytes))
 
 (struct transaction (signature from to value inputs outputs) #:prefab)
 

@@ -1,8 +1,8 @@
 #lang racket
-(require "utils.rkt")
 (require (only-in sha sha256))
 (require (only-in sha bytes->hex-string))
 (require racket/serialize)
+(require (only-in file/sha1 hex-string->bytes))
 
 (define difficulty 2)
 (define target (bytes->hex-string (make-bytes difficulty 32)))

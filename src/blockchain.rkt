@@ -3,6 +3,7 @@
 (require "transaction.rkt")
 (require "utils.rkt")
 (require "wallet.rkt")
+(require "smart-contracts.rkt")
 
 (struct blockchain (blocks utxo) #:prefab)
 
@@ -28,13 +29,13 @@
      utxo-rewarded)))
 
 ; Send money from one wallet to another by initiating transaction, and then adding it to the blockchain for processing
-(define (send-money-blockchain b from to value)
+(define (send-money-blockchain b from to value c)
   (letrec ([my-ts (filter (lambda (t) (equal? from (transaction-io-owner t))) (blockchain-utxo b))]
            [t (make-transaction from to value my-ts)])
     (if (transaction? t)
         (let ([processed-transaction (process-transaction t)])
           (if (and (>= (balance-wallet-blockchain b from) value)
-                   (valid-transaction? processed-transaction))
+                   (valid-transaction-with-contract? processed-transaction c))
               (add-transaction-to-blockchain b processed-transaction)
               b))
         (add-transaction-to-blockchain b '()))))

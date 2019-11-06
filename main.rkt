@@ -27,17 +27,17 @@
 
 ; Make a second transaction
 (printf "Mining second transaction...\n")
-(set! blockchain (send-money-blockchain blockchain wallet-a wallet-b 20))
+(set! blockchain (send-money-blockchain blockchain wallet-a wallet-b 20 (file->contract "contract.script")))
 (print-wallets blockchain wallet-a wallet-b)
 
 ; Make a third transaction
 (printf "Mining third transaction...\n")
-(set! blockchain (send-money-blockchain blockchain wallet-b wallet-a 10))
+(set! blockchain (send-money-blockchain blockchain wallet-b wallet-a 10 (file->contract "contract.script")))
 (print-wallets blockchain wallet-a wallet-b)
 
 ; Attempt to make a fourth transaction
 (printf "Attempting to mine fourth (not-valid) transaction...\n")
-(set! blockchain (send-money-blockchain blockchain wallet-b wallet-a 200))
+(set! blockchain (send-money-blockchain blockchain wallet-b wallet-a 200 (file->contract "contract.script")))
 (print-wallets blockchain wallet-a wallet-b)
 
 (printf "Blockchain is valid: ~a\n\n" (valid-blockchain? blockchain))

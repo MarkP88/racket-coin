@@ -33,14 +33,14 @@
           (subbytes (hex-string->bytes target) 1 difficulty)))
 
 ; Hashcash implementation
-(define (make-and-mine-block target previous-hash timestamp transaction nonce)
+(define (make-and-mine-block previous-hash timestamp transaction nonce)
   (let ([hash (calculate-block-hash previous-hash timestamp transaction nonce)])
     (if (mined-block? hash)
         (block hash previous-hash transaction timestamp nonce)
-        (make-and-mine-block target previous-hash timestamp transaction (+ nonce 1)))))
+        (make-and-mine-block previous-hash timestamp transaction (+ nonce 1)))))
 
 ; Wrapper around make-and-mine-block
 (define (mine-block transaction previous-hash)
-  (make-and-mine-block target previous-hash (current-milliseconds) transaction 1))
+  (make-and-mine-block previous-hash (current-milliseconds) transaction 1))
 
 (provide (struct-out block) mine-block valid-block? mined-block?)

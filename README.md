@@ -1,6 +1,6 @@
-Scheme-Coin v1.0 by Boro Sitnikovski
+Racket-Coin v1.0 by Boro Sitnikovski
 ====================================
-To clone me: Write `git clone git@github.com:bor0/scheme-coin.git`.
+To clone me: Write `git clone git@github.com:bor0/racket-coin.git`.
 
 You can run [DrRacket](https://racket-lang.org/) with `main.rkt`. Otherwise, for command line, first install dependencies by writing `make deps` and then run `make` or `make run`.
 
@@ -22,7 +22,7 @@ Project structure:
   - `utils.rkt` contains some generally useful procedures.
   - `peer-to-peer.rkt` contains procedures for syncing blockchains between peers, syncing valid peers, etc.
 
-Note that this is just an example cryptocurrency implementation in Scheme and is not intended to be run in production.
+Note that this is just an example cryptocurrency implementation in Racket and is not intended to be run in production.
 
 Example output:
 ```
@@ -101,14 +101,14 @@ Depending on which of the peers has a bigger effort on the blockchain, both file
 
 To double check, we compare the DB before:
 ```
-boro@bor0:~/misc/sources/scheme-coin$ ls -al test*.data
+boro@bor0:~/misc/sources/racket-coin$ ls -al test*.data
 -rw-r--r--  1 boro  staff  5232 Jul 13 01:41 test-2.data
 -rw-r--r--  1 boro  staff  3849 Jul 13 01:41 test.data
 ```
 
 And after the peers have synced:
 ```
-boro@bor0:~/misc/sources/scheme-coin$ ls -al test*.data
+boro@bor0:~/misc/sources/racket-coin$ ls -al test*.data
 -rw-r--r--  1 boro  staff  5232 Jul 13 01:41 test-2.data
 -rw-r--r--  1 boro  staff  5232 Jul 13 01:41 test.data
 ```

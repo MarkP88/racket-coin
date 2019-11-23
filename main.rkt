@@ -8,13 +8,13 @@
     (exit)))
 
 ; Initialize wallets
-(define scheme-coin-base (make-wallet))
+(define coin-base (make-wallet))
 (define wallet-a (make-wallet))
 (define wallet-b (make-wallet))
 
 ; Transactions
 (printf "Making genesis transaction...\n")
-(define genesis-t (make-transaction scheme-coin-base wallet-a 100 '()))
+(define genesis-t (make-transaction coin-base wallet-a 100 '()))
 
 ; Unspent transactions (store our genesis transaction)
 (define utxo (list

@@ -1,10 +1,28 @@
 #lang racket
 (require "./main-helper.rkt")
 
+(define args (vector->list (current-command-line-arguments)))
+
+(when (not (= 3 (length args)))
+  (begin
+    (printf "Usage: racket main-p2p.rkt dbfile.data port ip1:port1,ip2:port2,...\n")
+    (exit)))
+
+; Get args data
+(define db-filename (car args))
+(define port (string->number (cadr args)))
+(define valid-peers (map string-to-peer-info (string-split (caddr args) ",")))
+
 ; Convert a string of type ip:port to peer-info structure
 (define (string-to-peer-info s)
   (let ([s (string-split s ":")])
     (peer-info (car s) (string->number (cadr s)))))
+
+; Try to read the blockchain from a file (DB), otherwise create a new one
+(define db-blockchain
+  (if (file-exists? db-filename)
+      (file->struct db-filename)
+      (initialize-new-blockchain)))
 
 ; Create a new wallet for us to use
 (define wallet-a (make-wallet))
@@ -28,25 +46,7 @@
     (define b (init-blockchain genesis-t "1337cafe" utxo))
     b))
 
-(define args (vector->list (current-command-line-arguments)))
-
-(when (not (= 3 (length args)))
-  (begin
-    (printf "Usage: racket main-p2p.rkt dbfile.data port ip1:port1,ip2:port2,...\n")
-    (exit)))
-
-; Get args data
-(define db-filename (car args))
-(define port (string->number (cadr args)))
-(define valid-peers (map string-to-peer-info (string-split (caddr args) ",")))
-
-; Try to read the blockchain from a file (DB), otherwise create a new one
-(define b
-  (if (file-exists? db-filename)
-      (file->struct db-filename)
-      (initialize-new-blockchain)))
-
-(define peer-context (peer-context-data "Test peer" port (list->set valid-peers) '() b))
+(define peer-context (peer-context-data "Test peer" port (list->set valid-peers) '() db-blockchain))
 (define (get-blockchain) (peer-context-data-blockchain peer-context))
 
 (run-peer peer-context)

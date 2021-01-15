@@ -3,7 +3,6 @@
 (require "./src/utils.rkt")
 (require "./src/peer-to-peer.rkt")
 
-(require (only-in sha bytes->hex-string))
 
 (define (format-transaction t)
   (format "...~a... sends ...~a... an amount of ~a."
@@ -12,7 +11,8 @@
           (transaction-value t)))
 
 (define (print-block bl)
-  (printf "Block information\n=================\nHash:\t~a\nHash_p:\t~a\nStamp:\t~a\nNonce:\t~a\nData:\t~a\n"
+  (printf "Block information\n=================
+Hash:\t~a\nHash_p:\t~a\nStamp:\t~a\nNonce:\t~a\nData:\t~a\n"
           (block-hash bl)
           (block-previous-hash bl)
           (block-timestamp bl)

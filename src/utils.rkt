@@ -1,11 +1,10 @@
 #lang racket
-(require racket/serialize)
 
 ; This procedure returns true if the predicate satisfies all members of the list
 (define (true-for-all? pred list)
   (cond
     [(empty? list) #t]
-    [(pred (first list)) (true-for-all? pred (rest list))]
+    [(pred (car list)) (true-for-all? pred (cdr list))]
     [else #f]))
 
 ; Export a struct to a file
@@ -26,3 +25,5 @@
     (read (open-input-file file))))
 
 (provide true-for-all? struct->file file->struct file->contract)
+
+(require racket/serialize)
